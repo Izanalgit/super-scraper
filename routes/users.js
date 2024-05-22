@@ -19,6 +19,7 @@ routes.get('/login',(req,res)=>{
         </form>
     `)
 })
+
 routes.post(
     '/login',
     require('../controllers/users/login')

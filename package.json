@@ -4,7 +4,8 @@
   "description": "Super markets prices scraper",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node --env-file=.env app.js"
   },
   "keywords": [],
   "author": "",
@@ -13,12 +14,13 @@
     "axios": "1.7.0",
     "bcrypt": "5.1.1",
     "cheerio": "1.0.0-rc.12",
-    "cors": "^2.8.5",
+    "cors": "2.8.5",
     "express": "4.19.2",
     "express-session": "1.18.0",
     "express-validator": "7.1.0",
     "jsonwebtoken": "9.0.2",
     "morgan": "1.10.0",
+    "puppeteer": "22.9.0",
     "uuid": "9.0.1"
   }
 }

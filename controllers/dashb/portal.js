@@ -3,8 +3,8 @@ const {readbd} = require ('../../data/textbbdd');
 module.exports = (req,res) =>{
     const userId = req.user;
     const users = readbd();
-    const user =users[userId].name;
-
+    const user =users[userId].name; 
+//REFACTORIZAR^^^^
     res.send(`
         <h1>SUPERS-SCRAPER</h1>
         <h2>Wellcome ${user}<h2>

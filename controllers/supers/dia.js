@@ -1,10 +1,10 @@
 const cheerio = require("cheerio");
 const axios = require("axios");
 
-function fetchDia (product){
+async function fetchDia (product){
     const URL = `https://www.dia.es/search?q=${product}`
     
-    axios.get(URL, {
+    return axios.get(URL, {
         headers: {
           'Content-Type': 'text/javascript',
           'Access-Control-Allow-Origin': '*',
@@ -13,24 +13,33 @@ function fetchDia (product){
         },
       }).then((resp)=>{
         if(resp.status===200){
-            console.log ('Fetch done')
+            console.log ('Fetch done : DIA');
     
             const htmlDom = resp.data;
             const $ = cheerio.load(htmlDom);
          
             let result = []
             
-            
-            $(`div.search-product-card`).each((ind,elm)=>{
+            $(`div.search-product-card`).each(async (ind,elm)=>{
                 
                 const name = $('a.search-product-card__product-link',elm).text();
                 const price = $('p.search-product-card__active-price',elm).text();
                 const priceUd = $('p.search-product-card__price-per-unit',elm).text();
+
+                let cleanP = price.trim().replace(',','.');
+                cleanP = cleanP.slice(0,cleanP.length - 2);
+                let cleanPU = priceUd.trim().replace(',','.');
+                cleanPU = cleanPU.slice(1,cleanPU.length - 9);
+                
     
-                result.push({'name':name,'price':price,"priceUd":priceUd});
+                await result.push({
+                      'name':name,
+                      'price':Number(cleanP),
+                      "priceUd":Number(cleanPU)
+                });
             })
             
-            console.log(result)
+             return result;
     
         }else console.log ('Fetch failed')
     })
@@ -38,7 +47,7 @@ function fetchDia (product){
 
 module.exports = {fetchDia}
 
-// fetchDia("pepsi") 
+// fetchDia("nestea").then(test=>console.log(test))
 
 
 

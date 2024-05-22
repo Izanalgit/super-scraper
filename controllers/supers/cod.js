@@ -1,12 +1,11 @@
 const cheerio = require("cheerio");
 const axios = require("axios");
 
-function fetchCon (product){
+async function fetchCon (product){
 
     const URL = `https://www.condisline.com/searching?term=${product}&source=directSearch&originSearch=search_box`
     
-
-    axios.get(URL, {
+    return axios.get(URL, {
         headers: {
           'Content-Type': 'text/javascript',
           'Access-Control-Allow-Origin': '*',
@@ -15,28 +14,33 @@ function fetchCon (product){
         },
       }).then((resp)=>{
         if(resp.status===200){
-            console.log ('Fetch done')
+            console.log ('Fetch done : COD');
     
             const htmlDom = resp.data;
             const $ = cheerio.load(htmlDom);
          
             let result = []
             
-            $(`article.article_container`).each((ind,elm)=>{
+            $(`article.article_container`).each(async (ind,elm)=>{
                 const name = $('span#description_text',elm).text();
                 const price = $(`div.article_price_container`,elm).text();
                 const priceUd = $('div.article_pum',elm).text();
 
                 const indx1 = price.search("formatNumber"); 
                 const indx2 = price.search("list");
-                const cleanP = price.slice(indx1+14,indx2-4) + '€'; 
-                const cleanPU = priceUd.trim().slice(0,priceUd.length-1);
+                const cleanP = price.slice(indx1+14,indx2-4); 
+                const cleanPU = priceUd.trim()
+                        .slice(0,priceUd.trim().length-7)
+                        .replace(',','.');
 
-
-                result.push({'name':name,'price':cleanP,"priceUd":cleanPU});
+                await result.push({
+                      'name':name,
+                      'price':Number(cleanP),
+                      "priceUd":Number(cleanPU)
+                });
             })
             
-            console.log(result)
+            return result;
     
         }else console.log ('Fetch failed')
     })
@@ -46,4 +50,4 @@ function fetchCon (product){
 
 module.exports = {fetchCon}
 
-fetchCon("cocacola");
+// fetchCon("nestea").then(test=>console.log(test))

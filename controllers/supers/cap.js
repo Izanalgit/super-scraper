@@ -1,12 +1,11 @@
 const cheerio = require("cheerio");
 const axios = require("axios");
 
-function fetchCap (product){
+async function fetchCap (product){
 
     const URL = `https://www.capraboacasa.com/es/search/results/?q=${product}&suggestionsFilter=false`
     
-
-    axios.get(URL, {
+    return axios.get(URL, {
         headers: {
           'Content-Type': 'text/javascript',
           'Access-Control-Allow-Origin': '*',
@@ -15,35 +14,40 @@ function fetchCap (product){
         },
       }).then((resp)=>{
         if(resp.status===200){
-            console.log ('Fetch done')
+            console.log ('Fetch done : CAP');
     
             const htmlDom = resp.data;
             const $ = cheerio.load(htmlDom);
          
             let result = []
             
-            $(`div.product-description`).each((ind,elm)=>{
+            $(`div.product-description`).each(async (ind,elm)=>{
 
                 const name = $('h2.product-title.product-title-resp',elm).text();
                 const price = $('span.price-offer-now',elm).text();
                 const priceUd = $('span.price-product',elm).text();
 
                 const cleanN = name.slice(1,name.length-1);
-                const cleanP = price + ' €';
+                const cleanP = price.replace(',','.');
+                const cleanPu = priceUd.replace(',','.')
+                        .slice(0,price.length-1);
 
-                result.push({'name':cleanN,'price':price,"priceUd":priceUd});
+                await result.push({
+                    'name':cleanN,
+                    'price':Number(cleanP),
+                    "priceUd":Number(cleanPu)
+                });
             })
             
-            console.log(result)
+            return result;
     
         }else console.log ('Fetch failed')
+        
     })
-
-
 }
 
 module.exports = {fetchCap}
+// fetchCap("nestea").then(test=>console.log(test))
 
-// fetchCap("nestea");
 
 
