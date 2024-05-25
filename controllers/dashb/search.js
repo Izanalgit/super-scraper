@@ -1,4 +1,4 @@
-const {readbd} = require ('../../data/textbbdd');
+const {dbFindUser} = require ('../../config/mdb-config');
 const {loggerFD} = require('../../config/loggers');
 
 module.exports = async(req,res) => {
@@ -12,8 +12,8 @@ module.exports = async(req,res) => {
     }
     
     const userId = req.user;
-    const users = readbd();
-    const user =users[userId].name;
+    const user = await dbFindUser(userId);
+
 
     const {fetchCap} = require('../supers/cap');
     const {fetchCon} = require('../supers/cod');
@@ -26,8 +26,8 @@ module.exports = async(req,res) => {
     const {fetchCar} = require('../supers/car');
 
     //Cheerio 
-    const cap = await fetchCap(product).then(loggerFD(user,'CAP'));
-    const cod = await fetchCon(product).then(loggerFD(user,'COD'));
+    // const cap = await fetchCap(product).then(loggerFD(user.name,'CAP'));
+    // const cod = await fetchCon(product).then(loggerFD(user.name,'COD'));
     // const dia = await fetchDia(product).then(loggerFD(user,'DIA'));
     // const elc = await fetchElc(product).then(loggerFD(user,'ELC'));
     // const ero = await fetchEro(product).then(loggerFD(user,'ERO'));
@@ -38,8 +38,8 @@ module.exports = async(req,res) => {
     // const car = await fetchCar(product).then(loggerFD(user,'CAR'));
 
     res.json({
-        'Caprabo':cap,
-        'Condis':cod,
+        // 'Caprabo':cap,
+        // 'Condis':cod,
         // 'Dia':dia,
         // 'ElCorteIngles':elc,
         // 'Eroskie':ero,
@@ -47,6 +47,7 @@ module.exports = async(req,res) => {
         // 'LaSirena':lsi,
         // 'Aldi':ald,
         // 'Carrefour':car
+        'probe':'dev tests'
     })
 
 }

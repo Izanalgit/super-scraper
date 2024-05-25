@@ -1,5 +1,5 @@
 const jwt = require ('jsonwebtoken');
-const { readbd } = require('../data/textbbdd');
+const {dbFindUser} = require('./../config/mdb-config');
 const {loggerMS} = require('./../config/loggers');
 require('dotenv').config();
 
@@ -20,7 +20,7 @@ const createSession = () => {
 //Token generators
 
 function genToken(user){
-    return jwt.sign({user: user.id},hashSc,{expiresIn:'1h'});
+    return jwt.sign({user: user._id},hashSc,{expiresIn:'1h'});
 }
 
 function genSearchToken(counter,timer){
@@ -47,15 +47,14 @@ function verifyToken(req,res,next){
         }
 
         req.user = decoded.user;
+
         next();
     })
 }
 
-function verifyUser(req,res,next){
+async function verifyUser(req,res,next){
     const userId = req.user;
-    const users = readbd();
-
-    const user = users[userId];
+    const user = await dbFindUser(userId);
 
     if(!user) 
         return res
@@ -66,15 +65,14 @@ function verifyUser(req,res,next){
 }
 
 //Counter Tokens
-function verifySearchToken(req,res,next){
+async function verifySearchToken(req,res,next){
     const maxCount = process.env.MAX_COUNT || 5; // (5) Max search
     const tmeCount = process.env.MAX_COUNT || '10m'; // (10m) Expires time
     const token = req.session.counterToken;
 
     //Init user fore logs
     const userId = req.user;
-    const users = readbd();
-    const user = users[userId].name;
+    const user = await dbFindUser(userId);
     
     //Util : init token func
     const initToken =  () =>{
@@ -82,7 +80,7 @@ function verifySearchToken(req,res,next){
         req.session.counterToken = newToken;
         req.session.cntr = 1;
 
-        loggerMS('counter search',user,req.session.cntr,'yellow');
+        loggerMS('counter search',user.name,req.session.cntr,'yellow');
     }
 
     //First enter
@@ -110,7 +108,7 @@ function verifySearchToken(req,res,next){
 
         //Check if max reached
         if(counter >= maxCount){
-            loggerMS('counter search',user,'MAX SEARCH','red');
+            loggerMS('counter search',user.name,'MAX SEARCH','red');
             return res
                 .status(423)
                 .json({message:'You reach de max number of searchs. Please wait a few...'});
@@ -119,19 +117,18 @@ function verifySearchToken(req,res,next){
         req.session.counterToken = genSearchToken(counter + 1,tmeCount);
         req.session.cntr = counter + 1;
 
-        loggerMS('counter search',user,req.session.cntr,'yellow');
+        loggerMS('counter search',user.name,req.session.cntr,'yellow');
         next();
     })
 }
 
-function antiDDoSToken (req,res,next){//Vulnerabillity : previos token erase -> use inside data, how and where init the first???
+async function antiDDoSToken (req,res,next){//Vulnerabillity : previos token erase -> use inside data, how and where init the first???
     const tokenC = req.session.counterToken;
     const tokenA = req.session.antiAtkToken;
 
     //Init user fore logs
     const userId = req.user;
-    const users = readbd();
-    const user = users[userId].name;
+    const user = await dbFindUser(userId);
 
     //No Counte token
     if(!tokenC){
@@ -157,7 +154,7 @@ function antiDDoSToken (req,res,next){//Vulnerabillity : previos token erase -> 
                 .status(401)
                 .json({message:'Invalid Anti Atack Token', error: err.message});
         }
-        loggerMS('counter search',user,'MUTLIPLE REQUESTS','red');
+        loggerMS('counter search',user.name,'MUTLIPLE REQUESTS','red');
         res
             .status(429)
             .json({message:'What are you trying?'});

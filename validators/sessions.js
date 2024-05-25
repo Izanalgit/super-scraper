@@ -1,16 +1,4 @@
 const { body } = require('express-validator');
-const { readbd } = require('../data/textbbdd');
-
-const nameExist = (value) => {
-    const users= readbd();
-    if (!users) return true
-    if (
-        Object.values(users).some((user) => user.name === value)
-    ) {
-        throw new Error('This user allready exist')
-    }
-    return true
-}
 
 const userValidations = [
 	body('name')
@@ -18,8 +6,7 @@ const userValidations = [
         .notEmpty()
         .withMessage('User name is required')
         .isLength({ max: 15})
-		.withMessage('Name must be less than 15 characters long')
-        .custom(nameExist),
+		.withMessage('Name must be less than 15 characters long'),
 	body('pswd')
         .trim()
         .notEmpty()

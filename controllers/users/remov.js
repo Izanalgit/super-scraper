@@ -1,15 +1,21 @@
-const { readbd,savedb } = require('../../data/textbbdd');
+const {dbFindUserN,dbDeleteUser} = require('../../config/mdb-config');
 const {loggerDB} = require('../../config/loggers');
 
 
-module.exports = (req,res) => {
+module.exports = async (req,res) => {
     const {name,pswd} = req.body;
-    const users = readbd();
+    let user;
+    let userDel;
 
-    const user = Object
-        .values(users)
-        .find(user=>user.name === name && user.pswd === pswd);
-    
+    //Search user
+    try{
+        user = await dbFindUserN(name,pswd);
+    }catch(err){
+        return res
+            .status(401)
+            .json({message:err});
+    }
+
     //Check user
     if(!user) return res
         .status(401)
@@ -18,17 +24,24 @@ module.exports = (req,res) => {
     const userId = req.user;
 
     //Check if is same user
-    if(userId !== user.id) {
-        console.log(`ID ${userId} attepts to erase ${user.id}`);
+    if(userId != user._id) {
+        console.log(`ID ${userId} attepts to erase ${user._id}`);
         return res
             .status(401)
             .json({message:'Invalid user.'})
     }
     
-    delete users[user.id];
-    savedb(users);
+    //Delete user
+    try{
+        userDel = await dbDeleteUser(userId)
+    }catch(err){
+        return res
+            .status(401)
+            .json({message:err});
+    }
 
-    loggerDB(user.name,'deleted');
+    //Log
+    loggerDB(userDel.name,'deleted');
     
     //Destroy session
     req.session.destroy();

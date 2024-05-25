@@ -1,8 +1,10 @@
-const { genToken } = require('../../middleware/middleToken');
-const { readbd } = require('../../data/textbbdd');
+const {genToken} = require('../../middleware/middleToken');
+const {dbFindUserN} = require('../../config/mdb-config');
 const {loggerDB} = require('../../config/loggers');
 
-module.exports = (req,res) => {
+module.exports = async (req,res) => {
+    let user;
+
     // Check if session allready exists
     if(req.session.token) 
         return res
@@ -10,29 +12,27 @@ module.exports = (req,res) => {
             .json({message:'Already loged.'}) 
 
     const {name,pswd} = req.body;
-    const users= readbd();
-
-    // Check if BBDD is empty
-    if(!users) {
-        console.log('Login attempt when : Empty BBDD');
-        return res
-            .status(401)
-            .json({message:'Invalid user or password.'})
-    }
 
     //User search
-    const user = Object
-        .values(users)
-        .find(user=>user.name === name && user.pswd === pswd);
+    try{
+        user = await dbFindUserN(name,pswd);
+    }catch(err){
+        return res
+            .status(401)
+            .json({message:err});
+    }
     
-    // Check if user exists
-    if(!user) return res
-        .status(401)
-        .json({message:'Invalid user or password.'})
+    //Check valid user
+    if(!user) 
+        return res
+            .status(401)
+            .json({message: 'Invalid user or password'})
     
     //Generate session token
-    const token = genToken(user)
+    const token = genToken(user._id);
     req.session.token = token;
+
+    //Log and response
     res.status(200)
         .json({user:user.name,message:'Wellcome!'})
 

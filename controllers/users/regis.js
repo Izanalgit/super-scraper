@@ -1,33 +1,40 @@
-const {generateUniqueId} = require('../../config/authConfig');
-const { readbd,savedb } = require('../../data/textbbdd');
+const {dbCreateUser} = require('../../config/mdb-config');
 const {loggerDB} = require('../../config/loggers');
 
-module.exports = (req,res)=>{
+module.exports =async (req,res)=>{
+    let newUser;
+
     // Check if session allready exists
     if(req.session.token) 
         return res
             .status(409)
             .json({message:'Already loged.'}) 
 
-    const id = generateUniqueId()
     const {name,pswd} = req.body;
-    const newUser = {id, name, pswd};
-
-    //Regist new user or first user
-    const users = readbd()
-    if(users){
-        users[id]=newUser;
-        savedb(users);
-
-        loggerDB(users[id].name,'added');
-    }else{
-        let first = {};
-        first[id]=newUser;
-        savedb(first);
-
-        loggerDB(first[id].name,'added');
+    
+    //Create new user
+    try{
+        newUser = await dbCreateUser({
+            'name':name,
+            'pswd':pswd,
+            'role':'normal'
+        })
+    }catch(err){
+        return res
+            .status(401)
+            .json({message:'Invalid user'})        
     }
 
+    //Check created user
+    if(!newUser) 
+        return res
+            .status(500)
+            .json({message: 'Something is wrong here.'});
 
-    res.status(201).json(newUser);
+    //Log and response
+    res
+        .status(201)
+        .json(newUser);
+
+    loggerDB(newUser.name,'added');
 }

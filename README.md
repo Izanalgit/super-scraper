@@ -12,7 +12,7 @@
             * [x] Validations
             + [ ] Tests
         * [ ] Mongo DB
-            - [ ] User CRUD implementation
+            - [x] User CRUD implementation
             * [ ] User CRUD tests
             * [ ] Searchs implementation
             + [ ] Searchs tests

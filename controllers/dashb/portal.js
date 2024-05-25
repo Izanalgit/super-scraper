@@ -1,16 +1,15 @@
-const {readbd} = require ('../../data/textbbdd');
+const {dbFindUser} = require ('../../config/mdb-config');
 
-module.exports = (req,res) =>{
+module.exports = async (req,res) =>{
     const userId = req.user;
-    const users = readbd();
-    const user =users[userId].name; 
+    const user = await dbFindUser(userId);
 
     const counter = req.session.cntr || 0;   
 
     res
         .status(200)
         .send({
-            'userName':user,
+            'userName':user.name,
             'serachCounter':counter
         })
 }

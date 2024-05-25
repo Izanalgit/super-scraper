@@ -21,7 +21,7 @@ function loggerMS (title,name,msg,color){
     }
     
     console.log(`\x1b${colr1}---- ${title.toUpperCase()} ----\x1b[0m`);
-    console.log(`User ${name} : \x1b${colorMsg}${msg}\x1b[0m`);
+    console.log(`${name} : \x1b${colorMsg}${msg}\x1b[0m`);
 }
 //DATA BASE CRUD LOG
 function loggerDB (name,method){
