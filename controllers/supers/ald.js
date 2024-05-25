@@ -11,7 +11,7 @@ async function fetchAld (product){
 
     console.log ('Fetch done : ALD : BROWSER OPEN');
 
-    await new Promise (r => setTimeout(r,4000)); // Take 4000 millisecons chilling
+    await new Promise (r => setTimeout(r,5000)); // Take 5000 millisecons chilling
 
     const result = await page.evaluate(()=>{
             const prodArry = []

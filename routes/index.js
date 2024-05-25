@@ -8,8 +8,10 @@ const {
 
 const router = express.Router();
 
+//Open - update session
 router.use(session(createSession()));
 
+//Routes
 router.use('/users', require('./users'));
 router.use('/dashb',verifyToken,verifyUser, require('./dashboard'));
 

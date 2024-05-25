@@ -8,6 +8,7 @@ module.exports = (req,res) => {
     if(users)loggerDB(users[userId].name,'logged out');
     else loggerDB('DELETED','logged out');
 
+    //Destroy session
     req.session.destroy();
     res.status(200)
         .json({message:'Good bye!'})

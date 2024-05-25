@@ -6,35 +6,28 @@ const {userValidations} = require('../validators/sessions');
 
 const routes = express.Router();
 
-//Login manual-TESTEO
-routes.get('/login',(req,res)=>{
-    res.send(`
-        <form action="/api/users/login" method="post">
-        <label for="name">Nombre :</label>
-        <input type="text" id="name" name="name" required><br>
-        <label for="pswd">Contraseña :</label>
-        <input type="password" id="pswd" name="pswd" required><br>
-
-        <button type="submit">Log In</button>
-        </form>
-    `)
-})
-
+//Log in
 routes.post(
     '/login',
     require('../controllers/users/login')
 );
+
+//Log out
 routes.post(
     '/logout',
     verifyToken,
     require('../controllers/users/logout')
 );
+
+//Regist new user
 routes.post(
     '/register',
     userValidations,
     validate,
     require('../controllers/users/regis')
 );
+
+//Delete user
 routes.delete(
     '/remove',
     verifyToken,

@@ -2,6 +2,7 @@ const fs = require('node:fs');
 
 const BBDD = './data/bbdd.json';
 
+// READ BBDD
 function readbd() {
     try {
         const data = fs.readFileSync(BBDD, 'utf-8');
@@ -14,6 +15,7 @@ function readbd() {
     }
 }
 
+//SAVE BBDD
 function savedb(data) {
     try{
         fs.writeFileSync(BBDD, JSON.stringify(data, null, 2));
