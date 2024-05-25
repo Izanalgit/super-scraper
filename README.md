@@ -4,7 +4,7 @@
 ### Serach for prices of products from supermarkets web pages and order them.
 
 - To do list:
-    - ** Back End ** 
+    - **Back End** 
         - [ ] Express Server
             - [x] Implementation
             * [x] CRUD routes
@@ -22,7 +22,7 @@
             * [ ] Error gestion
             * [ ] Tests 
             + [ ] Refactorize 
-    + ** Front end **
+    + **Front end**
         - [ ] Structure
         * [ ] Scripts
         + [ ] Styles
