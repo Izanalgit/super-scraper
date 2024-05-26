@@ -5,22 +5,29 @@
 
 - To do list:
     - **Back End** 
-        - [ ] Express Server
+        - [x] Express Server
             - [x] Implementation
             * [x] CRUD routes
             * [x] Dashborad routes
             * [x] Validations
-            + [ ] Tests
+            + [x] Tests
         * [ ] Mongo DB
             - [x] User CRUD implementation
-            * [ ] User CRUD tests
+            * [x] User CRUD tests
             * [ ] Searchs implementation
-            + [ ] Searchs tests
+            * [ ] Searchs tests
+            * [ ] Prices tables implementation
+            + [ ] Prices tables tests
+        * [ ] Order prices
+            - [ ] Logics
+            * [ ] Test
+            + [ ] Refactorize
         + [ ] Search Scrap
             - [x] Logics
             * [x] Validations
-            * [ ] Error gestion
-            * [ ] Tests 
+            * [x] Error gestion
+            * [x] Tests
+            * [x] Refine logs when fail 
             + [ ] Refactorize 
     + **Front end**
         - [ ] Structure

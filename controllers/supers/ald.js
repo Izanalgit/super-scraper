@@ -1,19 +1,43 @@
 const puppeteer = require('puppeteer');
+const {loggerMS} = require('../../config/loggers');
 
 async function fetchAld (product){
 
+    let fail = false;
+    let result;
+
+    //Init Browser
     const browser = await puppeteer.launch({
             headless : true, // [false] shows navigator
             slowMo : 200 // [X] ms betwen acctions (nice for see logs)
     });
-    const page = await browser.newPage();   
-    await page.goto(`https://www.aldi.es/busqueda.html?query=${product}`);
 
-    console.log ('Fetch done : ALD : BROWSER OPEN');
+    //Open Broser
+    const page = await browser.newPage()
+    .then((page)=>{
+        loggerMS(null,'Fetch done : ALD','BROWSER OPEN','green');
+        return page;
+    }).catch(()=>{
+        loggerMS(null,'Fetch failed : ALD','BROWSER OPEN','red',true);
+        fail = true;
+    });   
 
-    await new Promise (r => setTimeout(r,5000)); // Take 5000 millisecons chilling
+    if(fail) return result; //Check open browser fail
 
-    const result = await page.evaluate(()=>{
+    //Redirect Browser
+    await page.goto(`https://www.aldi.es/busqueda.html?query=${product}`)
+        .then(async ()=>{
+            loggerMS(null,'Fetch done : ALD','BROWSER REDIRECT','green');
+            await new Promise (r => setTimeout(r,5000)); // Take 5000 millisecons chilling
+        }).catch(()=>{
+            loggerMS(null,'Fetch failed : ALD','BROWSER REDIRECT','red',true);
+            fail = true;
+        });
+
+    //Scrap Browser
+    if(!fail){ //Check open redirect fail
+    result = await page.evaluate(()=>{
+
             const prodArry = []
             const products = document.querySelectorAll('.mod-article-tile.mod-article-tile--default')
 
@@ -36,12 +60,17 @@ async function fetchAld (product){
             }
 
             return prodArry
+    }).then((prodArry)=>{
+        loggerMS(null,'Fetch done : ALD','SCRAP','green');
+        return prodArry;
     })
+    .catch(()=>loggerMS(null,'Fetch failed : ALD','SCRAP','red',true));
+    }
 
-    console.log ('Fetch done : ALD : SCRAP');
-
-    await browser.close();
-    console.log ('Fetch done : ALD : BROWSER CLOSE');
+    //Close Browser
+    await browser.close()
+        .then(()=>loggerMS(null,'Fetch done : ALD','BROWSER CLOSE','green'))
+        .catch(()=>loggerMS(null,'Fetch failed : ALD','BROWSER CLOSE','red',true));
 
     return result;
 };

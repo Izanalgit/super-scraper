@@ -1,5 +1,6 @@
 const cheerio = require("cheerio");
 const axios = require("axios");
+const {loggerMS} = require('../../config/loggers');
 
 async function fetchElc (product){
 
@@ -15,7 +16,7 @@ async function fetchElc (product){
         },
       }).then((resp)=>{
         if(resp.status===200){
-            console.log ('Fetch done : ELC');
+          loggerMS(null,'Fetch done','ELC','green');
     
             const htmlDom = resp.data;
             const $ = cheerio.load(htmlDom);
@@ -42,8 +43,8 @@ async function fetchElc (product){
             
             return result;
     
-        }else console.log ('Fetch failed')
-    })
+        }
+    }).catch(()=>loggerMS(null,'Fetch failed','ELC','red',true))
 
 
 }

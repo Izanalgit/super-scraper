@@ -4,7 +4,7 @@
   "description": "Super markets prices scraper",
   "main": "app.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --silent --verbose",
     "test:watch":"jest --watchALL",
     "start":"node app.js",
     "start:watch": "node --watch app.js"

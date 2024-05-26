@@ -1,5 +1,6 @@
 const cheerio = require("cheerio");
 const axios = require("axios");
+const {loggerMS} = require('../../config/loggers');
 
 async function fetchDia (product){
     const URL = `https://www.dia.es/search?q=${product}`
@@ -13,7 +14,7 @@ async function fetchDia (product){
         },
       }).then((resp)=>{
         if(resp.status===200){
-            console.log ('Fetch done : DIA');
+          loggerMS(null,'Fetch done','DIA','green');
     
             const htmlDom = resp.data;
             const $ = cheerio.load(htmlDom);
@@ -41,8 +42,8 @@ async function fetchDia (product){
             
              return result;
     
-        }else console.log ('Fetch failed')
-    })
+        }
+    }).catch(()=>loggerMS(null,'Fetch failed','DIA','red',true))
 }
 
 module.exports = {fetchDia}

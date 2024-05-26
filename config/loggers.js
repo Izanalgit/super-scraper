@@ -1,6 +1,6 @@
 //GENERIC LOG
-function loggerMS (title,name,msg,color){
-    const colr1 = '[30m'; // Grey
+function loggerMS (title,name,msg,color,err){
+    const colrTitle = '[30m'; // Grey
     let colorMsg;
     switch (color) {
         case 'green':
@@ -20,8 +20,10 @@ function loggerMS (title,name,msg,color){
             break;            
     }
     
-    console.log(`\x1b${colr1}---- ${title.toUpperCase()} ----\x1b[0m`);
-    console.log(`${name} : \x1b${colorMsg}${msg}\x1b[0m`);
+    if(title)console.log(`\x1b${colrTitle}---- ${title.toUpperCase()} ----\x1b[0m`);
+    err?
+        console.error(`${name} : \x1b${colorMsg}${msg}\x1b[0m`):
+        console.log(`${name} : \x1b${colorMsg}${msg}\x1b[0m`);
 }
 //DATA BASE CRUD LOG
 function loggerDB (name,method){
