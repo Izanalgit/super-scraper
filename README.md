@@ -15,12 +15,17 @@
             - [x] User CRUD implementation
             * [x] User CRUD tests
             * [x] Searchs implementation
+            * [x] Expire documents
             * [ ] Searchs tests
             * [x] Prices tables implementation
             + [ ] Prices tables tests
         * [ ] Order prices
             - [x] Logics
-            * [ ] Test
+            * [ ] Error gestion
+            + [ ] Refactorize
+        * [ ] Shoping list
+            - [x] Logics
+            * [ ] Error gestion
             + [ ] Refactorize
         + [ ] Search Scrap
             - [x] Logics

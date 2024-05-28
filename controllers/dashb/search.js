@@ -2,7 +2,7 @@ const {dbFindUser} = require ('../../config/mdb-config');
 const {
     dbCreateProd,
     dbCountProds,
-    dbDeleteAllProds
+    dbDeleteProds
 } = require('../../config/mdb-s-config');
 
 const {
@@ -23,6 +23,7 @@ const {fetchCar} = require('../supers/car');
 module.exports = async(req,res) => {
 
     const {product} = req.body;
+    req.session.search = product;
 
     if(!product) {
         return res
@@ -51,31 +52,31 @@ module.exports = async(req,res) => {
     // - - - -  DB  enters - - - -
     
     //Pre-Clean DB
-    await dbDeleteAllProds(userId) ;
+    await dbDeleteProds(userId) ;
 
-    await cap.forEach(async produc => await dbCreateProd('Caprabo',userId,produc));
-    await cod.forEach(async produc => await dbCreateProd('Condis',userId,produc));
-    await dia.forEach(async produc => await dbCreateProd('Dia',userId,produc));
-    await elc.forEach(async produc => await dbCreateProd('ElCorteIngles',userId,produc));
-    await ero.forEach(async produc => await dbCreateProd('Eroskie',userId,produc));
-    await lid.forEach(async produc => await dbCreateProd('Lidel',userId,produc));
-    await lsi.forEach(async produc => await dbCreateProd('LaSirena',userId,produc));
-    await ald.forEach(async produc => await dbCreateProd('Aldi',userId,produc));
-    await car.forEach(async produc => await dbCreateProd('Carrefour',userId,produc));
+    await cap.forEach(async produc => await dbCreateProd('Caprabo',userId,produc,product));
+    await cod.forEach(async produc => await dbCreateProd('Condis',userId,produc,product));
+    await dia.forEach(async produc => await dbCreateProd('Dia',userId,produc,product));
+    await elc.forEach(async produc => await dbCreateProd('ElCorteIngles',userId,produc,product));
+    await ero.forEach(async produc => await dbCreateProd('Eroskie',userId,produc,product));
+    await lid.forEach(async produc => await dbCreateProd('Lidel',userId,produc,product));
+    await lsi.forEach(async produc => await dbCreateProd('LaSirena',userId,produc,product));
+    await ald.forEach(async produc => await dbCreateProd('Aldi',userId,produc,product));
+    await car.forEach(async produc => await dbCreateProd('Carrefour',userId,produc,product));
 
 
     loggerMS ('products db',user.name + ' products','SAVED','green');
     // - - - -  Result count - - - -
 
-    const capC = await dbCountProds('Caprabo');
-    const codC = await dbCountProds('Condis');
-    const diaC = await dbCountProds('Dia');
-    const elcC = await dbCountProds('ElCorteIngles');
-    const eroC = await dbCountProds('Eroskie');
-    const lidC = await dbCountProds('Lidel');
-    const lsiC = await dbCountProds('LaSirena');
-    const aldC = await dbCountProds('Aldi');
-    const carC = await dbCountProds('Carrefour');
+    const capC = await dbCountProds('Caprabo',product,userId);
+    const codC = await dbCountProds('Condis',product,userId);
+    const diaC = await dbCountProds('Dia',product,userId);
+    const elcC = await dbCountProds('ElCorteIngles',product,userId);
+    const eroC = await dbCountProds('Eroskie',product,userId);
+    const lidC = await dbCountProds('Lidel',product,userId);
+    const lsiC = await dbCountProds('LaSirena',product,userId);
+    const aldC = await dbCountProds('Aldi',product,userId);
+    const carC = await dbCountProds('Carrefour',product,userId);
 
     res.json({
         'Caprabo':capC,

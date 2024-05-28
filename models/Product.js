@@ -1,8 +1,15 @@
 const mongoose = require('mongoose');
 
-const prodExpires = 25 * 60; // (25) minutes to expire products on db
-
 const prodSchema = new mongoose.Schema({
+    expireAt: {
+        type: Date,
+        default: new Date(),
+        expires: 1500, // (25*60) secons
+    },
+    search : {
+        type:String,
+        required:[true, 'Search product name is required'],
+    },
     superm : {
         type:String,
         required:[true, 'Super name is required'],
@@ -24,7 +31,7 @@ const prodSchema = new mongoose.Schema({
     },
     userId : {
         type: mongoose.ObjectId,
-        required: true
+        required:[true, 'userId is required']
     },
     pname : {
         type:String,
@@ -37,10 +44,16 @@ const prodSchema = new mongoose.Schema({
     priceu : {
         type:Number,
     },
-    unit : {type:String},
-    "expireAt": { type: Date,  expires: prodExpires }
+    unit : {
+        type:String
+    },
+    kart : {
+        type:Boolean,
+        required:[true , 'Kart values is required'],
+        default:false
+    }
     
-},{timestamps:false})
+})
 
 const Product = mongoose.model('product',prodSchema);
 

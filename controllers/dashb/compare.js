@@ -2,41 +2,41 @@ const {dbFindUser} = require ('../../config/mdb-config');
 const {
     dbSortProdSN,
     dbSortCheep,
-    dbSortCheepS
 } = require('../../config/mdb-s-config');
 
 module.exports = async (req,res) =>{
     const userId = req.user;
     const user = await dbFindUser(userId);
+    const product = req.session.search;
 
     //Sorts
-    const capCmp = await dbSortProdSN('Caprabo');
-    const codCmp = await dbSortProdSN('Condis');
-    const diaCmp = await dbSortProdSN('Dia');
-    const elcCmp = await dbSortProdSN('ElCorteIngles');
-    const eroCmp = await dbSortProdSN('Eroskie');
-    const lidCmp = await dbSortProdSN('Lidel');
-    const lsiCmp = await dbSortProdSN('LaSirena');
-    const aldCmp = await dbSortProdSN('Aldi');
-    const carCmp = await dbSortProdSN('Carrefour');
+    const capCmp = await dbSortProdSN(user,'Caprabo',product);
+    const codCmp = await dbSortProdSN(user,'Condis',product);
+    const diaCmp = await dbSortProdSN(user,'Dia',product);
+    const elcCmp = await dbSortProdSN(user,'ElCorteIngles',product);
+    const eroCmp = await dbSortProdSN(user,'Eroskie',product);
+    const lidCmp = await dbSortProdSN(user,'Lidel',product);
+    const lsiCmp = await dbSortProdSN(user,'LaSirena',product);
+    const aldCmp = await dbSortProdSN(user,'Aldi',product);
+    const carCmp = await dbSortProdSN(user,'Carrefour',product);
 
     //Cheepers
-    const capCS = await dbSortCheepS('Caprabo');
-    const codCS = await dbSortCheepS('Condis');
-    const diaCS = await dbSortCheepS('Dia');
-    const elcCS = await dbSortCheepS('ElCorteIngles');
-    const eroCS = await dbSortCheepS('Eroskie');
-    const lidCS = await dbSortCheepS('Lidel');
-    const lsiCS = await dbSortCheepS('LaSirena');
-    const aldCS = await dbSortCheepS('Aldi');
-    const carCS = await dbSortCheepS('Carrefour');
+    const capCS = await dbSortProdSN(user,'Caprabo',product,1);
+    const codCS = await dbSortProdSN(user,'Condis',product,1);
+    const diaCS = await dbSortProdSN(user,'Dia',product,1);
+    const elcCS = await dbSortProdSN(user,'ElCorteIngles',product,1);
+    const eroCS = await dbSortProdSN(user,'Eroskie',product,1);
+    const lidCS = await dbSortProdSN(user,'Lidel',product,1);
+    const lsiCS = await dbSortProdSN(user,'LaSirena',product,1);
+    const aldCS = await dbSortProdSN(user,'Aldi',product,1);
+    const carCS = await dbSortProdSN(user,'Carrefour',product,1);
 
     //Chepest
-    const cheep = await dbSortCheep();
+    const cheep = await dbSortCheep(product,user);
 
     res
         .status(200)
-        .send({
+        .json({
             cheepest:cheep,
             cheepers:{
                 'Caprabo':capCS,

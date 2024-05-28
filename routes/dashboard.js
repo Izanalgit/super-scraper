@@ -5,6 +5,7 @@ const { searchValidations } = require('../validators/searchs');
 
 const {
     verifySearchToken,
+    verifySearchLite,
     antiDDoSToken
 } = require('./../middleware/middleToken');
 
@@ -13,6 +14,7 @@ const routes = express.Router();
 //User dashboar - user / session info
 routes.get(
     '/', 
+    verifySearchLite,
     require('../controllers/dashb/portal')
 )
 
@@ -30,6 +32,17 @@ routes.post(
 routes.get(
     '/result', 
     require('../controllers/dashb/compare')
+)
+// Comparsion data
+routes.put(
+    '/result', 
+    require('../controllers/dashb/shop')
+)
+
+// Shopping kart
+routes.post(
+    '/result', 
+    require('../controllers/dashb/kart')
 )
 
 module.exports = routes;

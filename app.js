@@ -4,7 +4,7 @@ const {dbConnect} = require('./config/mdb-config');
 require('dotenv').config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 
 dbConnect();
 
@@ -15,8 +15,7 @@ app.use(morgan('dev'));
 app.use('/api', require('./routes'));
 
 const server = app.listen(PORT, ()=>{
-    console.log(`Server on http://localhost:${PORT}`);
-    console.log(`TEST LOGIN http://localhost:${PORT}/api/users/login`);
+    console.log(`Server on ${PORT}`);
 })
 
 module.exports = {app,server};

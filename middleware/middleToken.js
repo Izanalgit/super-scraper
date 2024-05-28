@@ -28,7 +28,7 @@ function genSearchToken(counter,timer){
 }
 
 function genAntiDDoSToken(active){
-    return jwt.sign({'active':active},hashSc,{expiresIn:'1m'});
+    return jwt.sign({'active':active},hashSc,{expiresIn:'30s'});
 }
 
 //Middlewares
@@ -66,13 +66,16 @@ async function verifyUser(req,res,next){
 
 //Counter Tokens
 async function verifySearchToken(req,res,next){
-    const maxCount = process.env.MAX_COUNT || 5; // (5) Max search
-    const tmeCount = process.env.MAX_COUNT || '10m'; // (10m) Expires time
+    let maxCount = process.env.MAX_COUNT || 5; // (5) Max search
+    const tmeCount = process.env.TME_COUNT || '15m'; // (15m) Expires time
     const token = req.session.counterToken;
 
     //Init user fore logs
     const userId = req.user;
     const user = await dbFindUser(userId);
+
+    //Premi counter
+    if(user.role === 'premy') maxCount = process.env.MAX_COUNT_P || 20; // (20) Premy max search
     
     //Util : init token func
     const initToken =  () =>{
@@ -122,6 +125,22 @@ async function verifySearchToken(req,res,next){
     })
 }
 
+//Just reset the session token view if token expired
+async function verifySearchLite(req,res,next){
+    const token = req.session.counterToken;
+
+    if(token){
+        jwt.verify(token,hashSc,(err,decoded)=>{
+        if(err){
+            const msg = err.message;
+            if(msg === 'jwt expired'){
+                req.session.cntr = 0;
+            };}
+        }) 
+    }
+    next();
+}
+
 async function antiDDoSToken (req,res,next){//Vulnerabillity : previos token erase -> use inside data, how and where init the first???
     const tokenC = req.session.counterToken;
     const tokenA = req.session.antiAtkToken;
@@ -169,5 +188,6 @@ module.exports = {
     verifyToken,
     verifyUser,
     verifySearchToken,
+    verifySearchLite,
     antiDDoSToken
  };
