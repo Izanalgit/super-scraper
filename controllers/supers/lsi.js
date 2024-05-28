@@ -19,7 +19,7 @@ async function fetchLsi (product){
             $(`div.product-container.product_div_item`).each(async (ind,elm)=>{
                 const name = $('a.product-name',elm).attr('title');
                 const price = $(`span.price.product-price `,elm).text();
-                const priceUd = $('div.productPer',elm).text();
+                const unit = $('div.productPer',elm).text();
 
                 const indx = price.search('€');
                 let cleanP = price.replace(',','.');
@@ -28,7 +28,7 @@ async function fetchLsi (product){
                 await result.push({
                         'name':name,
                         'price':Number(cleanP),
-                        "priceUd":priceUd
+                        "unit":unit
                 });
             })
             
@@ -43,3 +43,5 @@ async function fetchLsi (product){
 module.exports = {fetchLsi}
 
 // fetchLsi("salmon").then(test=>console.log(test))
+
+// Have the unit / price comparsion in a too much complex string, so we have the "unit" string

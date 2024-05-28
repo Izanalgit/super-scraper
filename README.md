@@ -14,12 +14,12 @@
         * [ ] Mongo DB
             - [x] User CRUD implementation
             * [x] User CRUD tests
-            * [ ] Searchs implementation
+            * [x] Searchs implementation
             * [ ] Searchs tests
-            * [ ] Prices tables implementation
+            * [x] Prices tables implementation
             + [ ] Prices tables tests
         * [ ] Order prices
-            - [ ] Logics
+            - [x] Logics
             * [ ] Test
             + [ ] Refactorize
         + [ ] Search Scrap

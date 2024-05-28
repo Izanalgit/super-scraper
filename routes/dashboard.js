@@ -26,10 +26,10 @@ routes.post(
     require('../controllers/dashb/search'),
 )
 
-//Comparsion data
-// routes.get(
-//     '/result', 
-//     require('../controllers/dashb/compare')
-// )
+// Comparsion data
+routes.get(
+    '/result', 
+    require('../controllers/dashb/compare')
+)
 
 module.exports = routes;
