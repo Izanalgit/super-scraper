@@ -1,8 +1,7 @@
 const jwt = require ('jsonwebtoken');
 const {dbFindUser} = require('./../config/mdb-config');
 const {loggerMS} = require('./../config/loggers');
-const Store = require('express-session').Store;
-const MongooseStore = require('mongoose-express-session')(Store);
+const MongooseStore = require('mongoose-express-session')();
 const mongoose = require('mongoose');
 require('dotenv').config();
 
@@ -23,8 +22,8 @@ const createSession = () => {
             maxAge:360000
         },
         store: new MongooseStore({
-            connection: URI_S, 
-            mongoose: mongoose
+            mongoose: mongoose,
+            store: require('express-session').Store
         })
     }
 }
