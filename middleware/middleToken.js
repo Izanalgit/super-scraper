@@ -13,7 +13,7 @@ const createSession = () => {
         secret: hashSc,
         resave: false,
         saveUninitialized: true,
-        cookie: {secure:true}, // (false) HTTP - true HTTPS
+        cookie: {secure:false}, // (false) HTTP - true HTTPS
     }
 }
 
