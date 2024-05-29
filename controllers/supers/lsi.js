@@ -7,7 +7,14 @@ async function fetchLsi (product){
     const URL = `https://www.lasirena.es/es/buscar?search_query=${product}`
     
 
-    return axios.get(URL).then((resp)=>{
+    return axios.get(URL, {
+        headers: {
+          'Content-Type': 'text/javascript',
+          'Access-Control-Allow-Origin': '*',
+          'accept-language': 'es',
+          'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36',
+        },
+      }).then((resp)=>{
         if(resp.status===200){
             loggerMS(null,'Fetch done','LSI','green');
     

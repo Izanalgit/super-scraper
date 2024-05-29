@@ -39,9 +39,9 @@ module.exports = async(req,res) => {
 
     // Cheerio 
     const cap = await fetchCap(product).then(loggerFD(user.name,'CAP'));
-    const cod = await fetchCon(product).then(loggerFD(user.name,'COD'));
+    // const cod = await fetchCon(product).then(loggerFD(user.name,'COD'));
     const dia = await fetchDia(product).then(loggerFD(user.name,'DIA'));
-    const elc = await fetchElc(product).then(loggerFD(user.name,'ELC'));
+    // const elc = await fetchElc(product).then(loggerFD(user.name,'ELC'));
     const ero = await fetchEro(product).then(loggerFD(user.name,'ERO'));
     const lid = await fetchLid(product).then(loggerFD(user.name,'LID'));
     const lsi = await fetchLsi(product).then(loggerFD(user.name,'LSI'));
@@ -60,9 +60,9 @@ module.exports = async(req,res) => {
         }) ;
 
     await cap.forEach(async produc => await dbCreateProd('Caprabo',userId,produc,product));
-    await cod.forEach(async produc => await dbCreateProd('Condis',userId,produc,product));
+    // await cod.forEach(async produc => await dbCreateProd('Condis',userId,produc,product));
     await dia.forEach(async produc => await dbCreateProd('Dia',userId,produc,product));
-    await elc.forEach(async produc => await dbCreateProd('ElCorteIngles',userId,produc,product));
+    // await elc.forEach(async produc => await dbCreateProd('ElCorteIngles',userId,produc,product));
     await ero.forEach(async produc => await dbCreateProd('Eroskie',userId,produc,product));
     await lid.forEach(async produc => await dbCreateProd('Lidel',userId,produc,product));
     await lsi.forEach(async produc => await dbCreateProd('LaSirena',userId,produc,product));
