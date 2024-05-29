@@ -7,7 +7,7 @@
     "test": "jest --silent --verbose",
     "test:watch": "jest --watchALL",
     "start": "node app.js",
-    "start:pupper": "node node_modules/puppeteer/install.js && node app.js",
+    "start:pupper": "npx puppeteer browsers install chrome && node app.js",
     "start:watch": "node --watch app.js"
   },
   "keywords": [],
