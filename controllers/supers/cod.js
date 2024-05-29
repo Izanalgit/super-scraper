@@ -43,6 +43,10 @@ async function fetchCon (product){
             
             return result;
     
+        }else{
+          const errMsg =`Status : ${resp.status} - ${resp.statusText}`;
+          console.error('ERROR :',errMsg);
+          return null
         }
     }).catch(()=>loggerMS(null,'Fetch failed','COD','red',true))
 

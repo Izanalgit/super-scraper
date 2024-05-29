@@ -41,6 +41,6 @@
         + [ ] Styles
     + **Production**
         - [ ] Data leake (session store)
-        * [ ] Error with chromium puppeter
-        * [ ] Error with COD and ELC supers
+        * [x] Error with chromium puppeter
+        * [ ] Error with COD and ELC supers (headders?)(do log err)
         + [ ] Works hard!
