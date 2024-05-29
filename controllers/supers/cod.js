@@ -48,7 +48,10 @@ async function fetchCon (product){
           console.error('ERROR :',errMsg);
           return null
         }
-    }).catch(()=>loggerMS(null,'Fetch failed','COD','red',true))
+    }).catch((err)=>{
+        loggerMS(null,'Fetch failed','COD','red',true);
+        if(err)console.error(err);
+      })
 
 
 }
