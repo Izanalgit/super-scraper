@@ -12,23 +12,23 @@
             * [x] Validations
             * [ ] Documentation
             + [x] Tests
-        * [ ] Mongo DB
+        * [x] Mongo DB
             - [x] User CRUD implementation
             * [x] User CRUD tests
             * [x] Searchs implementation
             * [x] Expire documents
-            * [ ] Searchs tests
+            * [x] Searchs tests
             * [x] Prices tables implementation
-            + [ ] Prices tables tests
-        * [ ] Order prices
+            + [x] Prices tables tests
+        * [x] Order prices
             - [x] Logics
             * [ ] Error gestion, need?
             + [ ] Refactorize
-        * [ ] Shoping list
+        * [x] Shoping list
             - [x] Logics
             * [x] Error gestion
             + [ ] Refactorize
-        + [ ] Search Scrap
+        + [x] Search Scrap
             - [x] Logics
             * [x] Validations
             * [x] Error gestion
