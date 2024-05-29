@@ -1,9 +1,6 @@
 const jwt = require ('jsonwebtoken');
 const {dbFindUser} = require('./../config/mdb-config');
 const {loggerMS} = require('./../config/loggers');
-var Store = require('express-session').Store;
-const MongooseStore = require('mongoose-express-session')(Store);
-const mongoose = require('mongoose');
 require('dotenv').config();
 
 //Secret
@@ -11,21 +8,12 @@ const {createSecret} = require('../config/authConfig');
 const hashSc = createSecret();
 
 //Session
-const URI_S = process.env.MONGO_URI
-
 const createSession = () => {
     return {
         secret: hashSc,
         resave: false,
         saveUninitialized: true,
-        cookie: {
-            secure:true,
-            maxAge:360000
-        },
-        store: new MongooseStore({
-            connection: URI_S, 
-            mongoose: mongoose
-        })
+        cookie: {secure:true}, // (false) HTTP - true HTTPS
     }
 }
 

@@ -46,8 +46,8 @@ module.exports = async(req,res) => {
     const lid = await fetchLid(product).then(loggerFD(user.name,'LID'));
     const lsi = await fetchLsi(product).then(loggerFD(user.name,'LSI'));
     //Puppetter
-    const ald = await fetchAld(product).then(loggerFD(user.name,'ALD'));
-    const car = await fetchCar(product).then(loggerFD(user.name,'CAR'));
+    // const ald = await fetchAld(product).then(loggerFD(user.name,'ALD'));
+    // const car = await fetchCar(product).then(loggerFD(user.name,'CAR'));
 
     // - - - -  DB  enters - - - -
     
@@ -66,8 +66,8 @@ module.exports = async(req,res) => {
     await ero.forEach(async produc => await dbCreateProd('Eroskie',userId,produc,product));
     await lid.forEach(async produc => await dbCreateProd('Lidel',userId,produc,product));
     await lsi.forEach(async produc => await dbCreateProd('LaSirena',userId,produc,product));
-    await ald.forEach(async produc => await dbCreateProd('Aldi',userId,produc,product));
-    await car.forEach(async produc => await dbCreateProd('Carrefour',userId,produc,product));
+    // await ald.forEach(async produc => await dbCreateProd('Aldi',userId,produc,product));
+    // await car.forEach(async produc => await dbCreateProd('Carrefour',userId,produc,product));
 
 
     loggerMS ('products db',user.name + ' products','SAVED','green');

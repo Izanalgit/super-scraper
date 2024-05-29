@@ -35,8 +35,11 @@
             * [x] Tests
             * [x] Refine logs when fail 
             + [ ] Refactorize 
-    + **Front end**
+    * **Front end**
         - [ ] Structure
         * [ ] Scripts
         + [ ] Styles
- 
+    + **Production**
+        - [ ] Data leake (session store)
+        * [ ] Error with chromium puppeter
+        + [ ] Works hard!
