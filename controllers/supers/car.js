@@ -9,8 +9,9 @@ async function fetchCar (product){
     //Init Browser
     const browser = await puppeteer.launch({
             headless : true, // [false] shows navigator
-            slowMo : 200 // [X] ms betwen acctions (nice for see logs)
-    });
+            slowMo : 200, // [X] ms betwen acctions (nice for see logs)
+            args: [`--no-sandbox`, `--headless`, `--disable-gpu`, `--disable-dev-shm-usage`],
+    }).then(br=>br).catch(err=>console.error(err));
 
     //Opem Broser
     const page = await browser.newPage()
