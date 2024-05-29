@@ -42,4 +42,5 @@
     + **Production**
         - [ ] Data leake (session store)
         * [ ] Error with chromium puppeter
+        * [ ] Error with COD and ELC supers
         + [ ] Works hard!
