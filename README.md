@@ -5,12 +5,12 @@
 
 - To do list:
     - **Back End** 
-        - [ ] Express Server
+        - [x] Express Server
             - [x] Implementation
             * [x] CRUD routes
             * [x] Dashborad routes
             * [x] Validations
-            * [ ] Documentation
+            * [x] Documentation
             + [x] Tests
         * [x] Mongo DB
             - [x] User CRUD implementation
