@@ -1,6 +1,7 @@
 const jwt = require ('jsonwebtoken');
 const {dbFindUser} = require('./../config/mdb-config');
 const {loggerMS} = require('./../config/loggers');
+const Store = require('express-session').Store;
 const MongooseStore = require('mongoose-express-session')(Store);
 const mongoose = require('mongoose');
 require('dotenv').config();
