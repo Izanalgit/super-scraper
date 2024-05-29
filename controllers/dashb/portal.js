@@ -10,6 +10,7 @@ module.exports = async (req,res) =>{
         .status(200)
         .send({
             'userName':user.name,
+            'userStatus':user.role,
             'serachCounter':counter
         })
 }

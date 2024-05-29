@@ -107,7 +107,14 @@ async function dbFindProdS(superm,userId){
 async function dbSortCheep(search,userId){
     try{
         const prod = await Product
-            .find({search,userId,'priceu':{ $ne: undefined }},['superm','pname','pricep','priceu','unit'])
+            .find(
+                {
+                    search,
+                    userId,
+                    'pricep':{ $ne: 0},
+                    'priceu':{ $ne: undefined }
+                },
+                ['superm','pname','pricep','priceu','unit'])
             .sort('priceu pricep')
             .limit(1);
         return prod;
@@ -122,7 +129,9 @@ async function dbSortProdSN(userId,superm,search,lim){
     const limit = lim || 20;
     try{
         const prods = await Product
-            .find({superm,search,userId},['pname','pricep','priceu','unit'])
+            .find(
+                {superm,search,userId},
+                ['pname','pricep','priceu','unit'])
             .sort('priceu pricep')
             .limit(limit);
         return prods;

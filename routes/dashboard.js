@@ -33,16 +33,22 @@ routes.get(
     '/result', 
     require('../controllers/dashb/compare')
 )
-// Comparsion data
-routes.put(
+// Select data
+routes.post(
     '/result', 
     require('../controllers/dashb/shop')
 )
 
 // Shopping kart
-routes.post(
-    '/result', 
+routes.get(
+    '/list', 
     require('../controllers/dashb/kart')
+)
+
+// Clear shopping kart
+routes.delete(
+    '/list', 
+    require('../controllers/dashb/clear')
 )
 
 module.exports = routes;

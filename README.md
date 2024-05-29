@@ -5,11 +5,12 @@
 
 - To do list:
     - **Back End** 
-        - [x] Express Server
+        - [ ] Express Server
             - [x] Implementation
             * [x] CRUD routes
             * [x] Dashborad routes
             * [x] Validations
+            * [ ] Documentation
             + [x] Tests
         * [ ] Mongo DB
             - [x] User CRUD implementation
@@ -21,11 +22,11 @@
             + [ ] Prices tables tests
         * [ ] Order prices
             - [x] Logics
-            * [ ] Error gestion
+            * [ ] Error gestion, need?
             + [ ] Refactorize
         * [ ] Shoping list
             - [x] Logics
-            * [ ] Error gestion
+            * [x] Error gestion
             + [ ] Refactorize
         + [ ] Search Scrap
             - [x] Logics

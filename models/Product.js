@@ -4,7 +4,7 @@ const prodSchema = new mongoose.Schema({
     expireAt: {
         type: Date,
         default: new Date(),
-        expires: 1500, // (25*60) secons
+        expires: 3600, // (60*60) 1h expires time, clean db good db (: ... free db xD
     },
     search : {
         type:String,

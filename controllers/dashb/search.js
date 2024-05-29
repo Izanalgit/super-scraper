@@ -52,7 +52,12 @@ module.exports = async(req,res) => {
     // - - - -  DB  enters - - - -
     
     //Pre-Clean DB
-    await dbDeleteProds(userId) ;
+    await dbDeleteProds(userId)
+        .catch(()=>{
+            return res
+                .status(500)
+                .json({message:'Error cleanning previous search'})
+        }) ;
 
     await cap.forEach(async produc => await dbCreateProd('Caprabo',userId,produc,product));
     await cod.forEach(async produc => await dbCreateProd('Condis',userId,produc,product));
@@ -66,6 +71,7 @@ module.exports = async(req,res) => {
 
 
     loggerMS ('products db',user.name + ' products','SAVED','green');
+
     // - - - -  Result count - - - -
 
     const capC = await dbCountProds('Caprabo',product,userId);
@@ -78,16 +84,18 @@ module.exports = async(req,res) => {
     const aldC = await dbCountProds('Aldi',product,userId);
     const carC = await dbCountProds('Carrefour',product,userId);
 
-    res.json({
-        'Caprabo':capC,
-        'Condis':codC,
-        'Dia':diaC,
-        'ElCorteIngles':elcC,
-        'Eroskie':eroC,
-        'Lidel':lidC,
-        'LaSirena':lsiC,
-        'Aldi':aldC,
-        'Carrefour':carC
-    })
+    res
+        .status(201)
+        .json({
+            'Caprabo':capC,
+            'Condis':codC,
+            'Dia':diaC,
+            'ElCorteIngles':elcC,
+            'Eroskie':eroC,
+            'Lidel':lidC,
+            'LaSirena':lsiC,
+            'Aldi':aldC,
+            'Carrefour':carC
+        })
 
 }
