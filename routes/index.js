@@ -1,5 +1,6 @@
 const express = require('express');
 const session = require('express-session');
+const cookieParser = require('cookie-parser');
 const {
     createSession, 
     verifyToken,
@@ -8,7 +9,10 @@ const {
 
 const router = express.Router();
 
-//Open - update session
+//Cookie parser
+app.use(cookieParser());
+
+//Open - Update session
 router.use(session(createSession()));
 
 //Routes
