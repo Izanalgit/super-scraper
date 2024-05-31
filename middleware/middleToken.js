@@ -16,6 +16,7 @@ const createSession = () => {
         cookie: {
             secure:false,
             httpOnly: false,
+            sameSite: 'None',
         }, 
     }
 }
