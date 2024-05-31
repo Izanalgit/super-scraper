@@ -24,7 +24,7 @@ module.exports = {
         }
       },
       "/api/users/login": {
-        post: {
+        get: {
             tags: ["User"],
           description: "Log in session",
           operationId: "loginUser",

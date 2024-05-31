@@ -21,7 +21,7 @@ async function dbConnect(){
 //Create
 async function dbCreateUser(user){
     try{
-        const newUser = await User.create(user);
+        const newUser = await User.create({...user,role:'normal'});
         return newUser;
     }catch (err){
         console.error('DB-CREATE USER ERROR : ',err);

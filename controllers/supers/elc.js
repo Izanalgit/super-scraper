@@ -48,7 +48,7 @@ async function fetchElc (product){
           console.error('ERROR :',errMsg);
           return null
         }
-    }).catch(()=>{
+    }).catch((err)=>{
         loggerMS(null,'Fetch failed','ELC','red',true)
         if(err)console.error(err);
     })
