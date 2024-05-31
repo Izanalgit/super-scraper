@@ -30,7 +30,7 @@ module.exports = async (req,res) => {
     
     //Generate session token
     const token = genToken(user._id);
-    req.session.token = token;
+    res.session.token = token;
 
     //Log and response
     res.status(200)
