@@ -12,9 +12,9 @@ const createSession = () => {
     return {
         secret: hashSc,
         resave: true,
-        saveUninitialized: false,
+        saveUninitialized: true,
         cookie: {
-            secure:true,
+            secure:false,
             httpOnly: false,
             sameSite: "None",
             response_mode:'form_post',
