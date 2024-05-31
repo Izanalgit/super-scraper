@@ -10,7 +10,7 @@ const {
 const router = express.Router();
 
 //Cookie parser
-app.use(cookieParser());
+router.use(cookieParser());
 
 //Open - Update session
 router.use(session(createSession()));
