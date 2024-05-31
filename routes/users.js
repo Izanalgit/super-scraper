@@ -7,7 +7,7 @@ const {userValidations} = require('../validators/sessions');
 const routes = express.Router();
 
 //Log in
-routes.get(
+routes.post(
     '/login',
     require('../controllers/users/login')
 );
