@@ -11,13 +11,13 @@ const hashSc = createSecret();
 const createSession = () => {
     return {
         secret: hashSc,
-        resave: true,
+        resave: false,
         saveUninitialized: true,
         cookie: {
             secure:false,
             httpOnly: false,
-            sameSite: "None",
-            response_mode:'form_post',
+            // sameSite: "None",
+            // response_mode:'form_post',
         }, 
     }
 }
