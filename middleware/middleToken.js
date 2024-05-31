@@ -11,12 +11,12 @@ const hashSc = createSecret();
 const createSession = () => {
     return {
         secret: hashSc,
-        resave: false,
-        saveUninitialized: true,
+        resave: true,
+        saveUninitialized: false,
         cookie: {
-            secure:false,
-            // httpOnly: false,
-            // sameSite: "None",
+            secure:true,
+            httpOnly: false,
+            sameSite: "None",
         }, 
     }
 }
