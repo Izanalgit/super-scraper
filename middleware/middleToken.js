@@ -17,6 +17,7 @@ const createSession = () => {
             secure:true,
             httpOnly: false,
             sameSite: "None",
+            response_mode:'form_post',
         }, 
     }
 }
