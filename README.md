@@ -11,7 +11,8 @@
             * [x] Dashborad routes
             * [x] Validations
             * [x] Documentation
-            + [x] Tests
+            * [x] Tests
+            + [x] Body token auth logics
         * [x] Mongo DB
             - [x] User CRUD implementation
             * [x] User CRUD tests

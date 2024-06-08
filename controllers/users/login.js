@@ -6,7 +6,7 @@ module.exports = async (req,res) => {
     let user;
 
     // Check if session allready exists
-    if(req.session.token) 
+    if(req.session.token || req.body.sesTok) 
         return res
             .status(409)
             .json({message:'Already loged.'}) 
@@ -33,8 +33,9 @@ module.exports = async (req,res) => {
     req.session.token = token;
 
     //Log and response
-    res.status(200)
-        .json({user:user.name,message:'Wellcome!'})
+    res
+        .status(200)
+        .json({user:user.name,message:'Wellcome!',sestok:token})
 
     loggerDB(user.name,'logged in');
 }

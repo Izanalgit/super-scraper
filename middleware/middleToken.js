@@ -7,7 +7,7 @@ require('dotenv').config();
 const {createSecret} = require('../config/authConfig');
 const hashSc = createSecret();
 
-//Session
+//Session config
 const createSession = () => {
     return {
         secret: hashSc,
@@ -15,7 +15,7 @@ const createSession = () => {
         saveUninitialized: true,
         cookie: {
             secure:false,
-            httpOnly: false,
+            // httpOnly: false,
             // sameSite: "None",
             // response_mode:'form_post',
         }, 
@@ -40,7 +40,7 @@ function genAntiDDoSToken(active){
 
 //Session Tokens
 function verifyToken(req,res,next){
-    const token = req.session.token;
+    const token = req.session.token || req.body.sesTok;
 
     if(!token)return res.status(401).json({message:'Token missing'});
 
