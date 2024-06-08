@@ -19,6 +19,9 @@ const {fetchLid} = require('../supers/lid');
 const {fetchLsi} = require('../supers/lsi');
 const {fetchAld} = require('../supers/ald');
 const {fetchCar} = require('../supers/car');
+const {fetchCodP} = require('../supers/codP');
+const {fetchElcP} = require('../supers/elcP');
+
 
 module.exports = async(req,res) => {
 
@@ -39,15 +42,17 @@ module.exports = async(req,res) => {
 
     // Cheerio 
     const cap = await fetchCap(product).then(loggerFD(user.name,'CAP'));
-    const cod = await fetchCon(product).then(loggerFD(user.name,'COD'));
+    let cod = await fetchCon(product).then(loggerFD(user.name,'COD'));
     const dia = await fetchDia(product).then(loggerFD(user.name,'DIA'));
-    const elc = await fetchElc(product).then(loggerFD(user.name,'ELC'));
+    let elc = await fetchElc(product).then(loggerFD(user.name,'ELC'));
     const ero = await fetchEro(product).then(loggerFD(user.name,'ERO'));
     const lid = await fetchLid(product).then(loggerFD(user.name,'LID'));
     const lsi = await fetchLsi(product).then(loggerFD(user.name,'LSI'));
     //Puppetter
     const ald = await fetchAld(product).then(loggerFD(user.name,'ALD'));
     const car = await fetchCar(product).then(loggerFD(user.name,'CAR'));
+    if(!cod) cod = await fetchCodP(product).then(loggerFD(user.name,'COD'));
+    if(!elc) elc = await fetchElcP(product).then(loggerFD(user.name,'ELC'));
 
     // - - - -  DB  enters - - - -
     

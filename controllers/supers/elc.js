@@ -31,8 +31,8 @@ async function fetchElc (product){
 
                 let cleanP = price.trim().replace(',','.');
                 cleanP = cleanP.slice(0,cleanP.length - 2);
-                let cleanPU = price.trim().replace(',','.');
-                cleanPU = cleanPU.slice(0,cleanPU.length - 2);
+                let cleanPU = priceUd.trim().replace(',','.');
+                cleanPU = cleanPU.slice(1,cleanPU.length - 11);
 
                 await result.push({
                         'name':name,
