@@ -1,6 +1,5 @@
 const express = require('express');
 const session = require('express-session');
-const cookieParser = require('cookie-parser');
 const {
     createSession, 
     verifyToken,
@@ -8,9 +7,6 @@ const {
 } = require('../middleware/middleToken');
 
 const router = express.Router();
-
-//Cookie parser
-router.use(cookieParser());
 
 //Open - Update session
 router.use(session(createSession()));
