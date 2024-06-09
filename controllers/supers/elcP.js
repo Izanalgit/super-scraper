@@ -8,7 +8,7 @@ async function fetchElcP (product){
     
     //Init Browser
     const browser = await puppeteer.launch({
-            headless : false, // [false] shows navigator
+            headless : true, // [false] shows navigator
             slowMo : 200, // [X] ms betwen acctions (nice for see logs)
             args: [`--no-sandbox`, `--disable-gpu`, `--disable-dev-shm-usage`],
     }).then(br=>br).catch(err=>console.error(err));
