@@ -19,8 +19,8 @@ const {fetchLid} = require('../supers/lid');
 const {fetchLsi} = require('../supers/lsi');
 const {fetchAld} = require('../supers/ald');
 const {fetchCar} = require('../supers/car');
-const {fetchCodP} = require('../supers/codP');
-const {fetchElcP} = require('../supers/elcP');
+// const {fetchCodP} = require('../supers/codP');  //Fix probe
+// const {fetchElcP} = require('../supers/elcP');  //Fix probe
 
 
 module.exports = async(req,res) => {
@@ -42,17 +42,17 @@ module.exports = async(req,res) => {
 
     // Cheerio 
     const cap = await fetchCap(product).then(loggerFD(user.name,'CAP'));
-    // const cod = await fetchCon(product).then(loggerFD(user.name,'COD')); //Deprecrated on deploy?
+    const cod = await fetchCon(product).then(loggerFD(user.name,'COD')); //Deprecrated on deploy?
     const dia = await fetchDia(product).then(loggerFD(user.name,'DIA'));
-    // const elc = await fetchElc(product).then(loggerFD(user.name,'ELC')); //Deprecrated on deploy?
+    const elc = await fetchElc(product).then(loggerFD(user.name,'ELC')); //Deprecrated on deploy?
     const ero = await fetchEro(product).then(loggerFD(user.name,'ERO'));
     const lid = await fetchLid(product).then(loggerFD(user.name,'LID'));
     const lsi = await fetchLsi(product).then(loggerFD(user.name,'LSI'));
     //Puppetter
     const ald = await fetchAld(product).then(loggerFD(user.name,'ALD'));
     const car = await fetchCar(product).then(loggerFD(user.name,'CAR'));
-    const cod = await fetchCodP(product).then(loggerFD(user.name,'COD'));
-    const elc = await fetchElcP(product).then(loggerFD(user.name,'ELC'));
+    // const cod = await fetchCodP(product).then(loggerFD(user.name,'COD')); // Fix probe
+    // const elc = await fetchElcP(product).then(loggerFD(user.name,'ELC')); // Fix probe
 
     // - - - -  DB  enters - - - -
     
