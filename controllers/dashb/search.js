@@ -49,8 +49,8 @@ module.exports = async(req,res) => {
     const lid = await fetchLid(product).then(loggerFD(user.name,'LID'));
     const lsi = await fetchLsi(product).then(loggerFD(user.name,'LSI'));
     // //Puppetter
-    // const ald = await fetchAld(product).then(loggerFD(user.name,'ALD'));
-    // const car = await fetchCar(product).then(loggerFD(user.name,'CAR'));
+    const ald = await fetchAld(product).then(loggerFD(user.name,'ALD'));
+    const car = await fetchCar(product).then(loggerFD(user.name,'CAR'));
     // const cod = await fetchCodP(product).then(loggerFD(user.name,'COD')); // Fix probe
     // const elc = await fetchElcP(product).then(loggerFD(user.name,'ELC')); // Fix probe
 
@@ -71,8 +71,8 @@ module.exports = async(req,res) => {
     if (ero) await ero.forEach(async produc => await dbCreateProd('Eroskie',userId,produc,product));
     if (lid) await lid.forEach(async produc => await dbCreateProd('Lidel',userId,produc,product));
     if (lsi) await lsi.forEach(async produc => await dbCreateProd('LaSirena',userId,produc,product));
-    // if (ald) await ald.forEach(async produc => await dbCreateProd('Aldi',userId,produc,product));
-    // if (car) await car.forEach(async produc => await dbCreateProd('Carrefour',userId,produc,product));
+    if (ald) await ald.forEach(async produc => await dbCreateProd('Aldi',userId,produc,product));
+    if (car) await car.forEach(async produc => await dbCreateProd('Carrefour',userId,produc,product));
 
 
     loggerMS ('products db',user.name + ' products','SAVED','green');
