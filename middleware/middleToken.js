@@ -80,7 +80,6 @@ async function verifyUser(req,res,next){
 async function verifySearchToken(req,res,next){
     let maxCount = process.env.MAX_COUNT || 5; // (5) Max search
     const token = req.body.counterToken;
-    console.log('token body',token)
     //Init user for logs
     const userId = req.user;
     const user = await dbFindUser(userId);
