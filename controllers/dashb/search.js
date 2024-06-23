@@ -41,16 +41,16 @@ module.exports = async(req,res) => {
     // - - - -  Scraps logics - - - - 
 
     // Cheerio 
-    const cap = await fetchCap(product).then(loggerFD(user.name,'CAP'));
-    const cod = await fetchCon(product).then(loggerFD(user.name,'COD')); //Deprecrated on deploy?
-    const dia = await fetchDia(product).then(loggerFD(user.name,'DIA'));
-    const elc = await fetchElc(product).then(loggerFD(user.name,'ELC')); //Deprecrated on deploy?
+    // const cap = await fetchCap(product).then(loggerFD(user.name,'CAP'));
+    // const cod = await fetchCon(product).then(loggerFD(user.name,'COD')); //Deprecrated on deploy?
+    // const dia = await fetchDia(product).then(loggerFD(user.name,'DIA'));
+    // const elc = await fetchElc(product).then(loggerFD(user.name,'ELC')); //Deprecrated on deploy?
     const ero = await fetchEro(product).then(loggerFD(user.name,'ERO'));
     const lid = await fetchLid(product).then(loggerFD(user.name,'LID'));
     const lsi = await fetchLsi(product).then(loggerFD(user.name,'LSI'));
-    //Puppetter
-    const ald = await fetchAld(product).then(loggerFD(user.name,'ALD'));
-    const car = await fetchCar(product).then(loggerFD(user.name,'CAR'));
+    // //Puppetter
+    // const ald = await fetchAld(product).then(loggerFD(user.name,'ALD'));
+    // const car = await fetchCar(product).then(loggerFD(user.name,'CAR'));
     // const cod = await fetchCodP(product).then(loggerFD(user.name,'COD')); // Fix probe
     // const elc = await fetchElcP(product).then(loggerFD(user.name,'ELC')); // Fix probe
 
@@ -64,15 +64,15 @@ module.exports = async(req,res) => {
                 .json({message:'Error cleanning previous search'})
         }) ;
 
-    if (cap) await cap.forEach(async produc => await dbCreateProd('Caprabo',userId,produc,product));
-    if (cod) await cod.forEach(async produc => await dbCreateProd('Condis',userId,produc,product));
-    if (dia) await dia.forEach(async produc => await dbCreateProd('Dia',userId,produc,product));
-    if (elc) await elc.forEach(async produc => await dbCreateProd('ElCorteIngles',userId,produc,product));
+    // if (cap) await cap.forEach(async produc => await dbCreateProd('Caprabo',userId,produc,product));
+    // if (cod) await cod.forEach(async produc => await dbCreateProd('Condis',userId,produc,product));
+    // if (dia) await dia.forEach(async produc => await dbCreateProd('Dia',userId,produc,product));
+    // if (elc) await elc.forEach(async produc => await dbCreateProd('ElCorteIngles',userId,produc,product));
     if (ero) await ero.forEach(async produc => await dbCreateProd('Eroskie',userId,produc,product));
     if (lid) await lid.forEach(async produc => await dbCreateProd('Lidel',userId,produc,product));
     if (lsi) await lsi.forEach(async produc => await dbCreateProd('LaSirena',userId,produc,product));
-    if (ald) await ald.forEach(async produc => await dbCreateProd('Aldi',userId,produc,product));
-    if (car) await car.forEach(async produc => await dbCreateProd('Carrefour',userId,produc,product));
+    // if (ald) await ald.forEach(async produc => await dbCreateProd('Aldi',userId,produc,product));
+    // if (car) await car.forEach(async produc => await dbCreateProd('Carrefour',userId,produc,product));
 
 
     loggerMS ('products db',user.name + ' products','SAVED','green');
@@ -92,6 +92,7 @@ module.exports = async(req,res) => {
     res
         .status(201)
         .json({
+            'counterToken':req.counterToken,
             'Caprabo':capC,
             'Condis':codC,
             'Dia':diaC,

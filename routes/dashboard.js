@@ -6,13 +6,12 @@ const { searchValidations } = require('../validators/searchs');
 const {
     verifySearchToken,
     verifySearchLite,
-    antiDDoSToken
 } = require('./../middleware/middleToken');
 
 const routes = express.Router();
 
 //User dashboar - user / session info
-routes.get(
+routes.post(
     '/', 
     verifySearchLite,
     require('../controllers/dashb/portal')
@@ -20,27 +19,26 @@ routes.get(
 
 //Scrap logics - raw data
 routes.post(
-    '/',
+    '/search',
     verifySearchToken,
-    antiDDoSToken,
     searchValidations,
     validate,
     require('../controllers/dashb/search'),
 )
 
 // Comparsion data
-routes.get(
+routes.post(
     '/result', 
     require('../controllers/dashb/compare')
 )
 // Select data
 routes.post(
-    '/result', 
+    '/select', 
     require('../controllers/dashb/shop')
 )
 
 // Shopping kart
-routes.get(
+routes.post(
     '/list', 
     require('../controllers/dashb/kart')
 )

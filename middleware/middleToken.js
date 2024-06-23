@@ -22,6 +22,8 @@ const createSession = () => {
     }
 }
 
+const tmeCount = process.env.TME_COUNT || '30m'; // (30m) Expires time
+
 //Token generators
 
 function genToken(user){
@@ -32,8 +34,13 @@ function genSearchToken(counter,timer){
     return jwt.sign({'counter':counter},hashSc,{expiresIn:`${timer}`});
 }
 
-function genAntiDDoSToken(active){
-    return jwt.sign({'active':active},hashSc,{expiresIn:'30s'});
+//Util : init token func
+const initToken =  (user) =>{
+    const newToken = genSearchToken(1,tmeCount)
+
+    loggerMS('counter search',user.name,1,'yellow');
+
+    return newToken;
 }
 
 //Middlewares
@@ -72,30 +79,14 @@ async function verifyUser(req,res,next){
 //Counter Tokens
 async function verifySearchToken(req,res,next){
     let maxCount = process.env.MAX_COUNT || 5; // (5) Max search
-    const tmeCount = process.env.TME_COUNT || '15m'; // (15m) Expires time
-    const token = req.session.counterToken;
-
-    //Init user fore logs
+    const token = req.body.counterToken;
+    console.log('token body',token)
+    //Init user for logs
     const userId = req.user;
     const user = await dbFindUser(userId);
 
     //Premi counter
     if(user.role === 'premy') maxCount = process.env.MAX_COUNT_P || 20; // (20) Premy max search
-    
-    //Util : init token func
-    const initToken =  () =>{
-        const newToken = genSearchToken(1,tmeCount)
-        req.session.counterToken = newToken;
-        req.session.cntr = 1;
-
-        loggerMS('counter search',user.name,req.session.cntr,'yellow');
-    }
-
-    //First enter
-    if(!token){
-        initToken();
-        return next();
-    };
     
     //Counter up
     jwt.verify(token,hashSc,(err,decoded)=>{
@@ -103,7 +94,6 @@ async function verifySearchToken(req,res,next){
         if(err){
             const msg = err.message;
             if(msg === 'jwt expired'){
-                initToken();
                 return next();
             };
 
@@ -115,76 +105,53 @@ async function verifySearchToken(req,res,next){
         const counter = decoded.counter;
 
         //Check if max reached
-        if(counter >= maxCount){
+        if(counter > maxCount){
+            req.counterToken = token;
+            req.cntr = counter;
             loggerMS('counter search',user.name,'MAX SEARCH','red');
             return res
                 .status(423)
                 .json({message:'You reach de max number of searchs. Please wait a few...'});
         }
 
-        req.session.counterToken = genSearchToken(counter + 1,tmeCount);
-        req.session.cntr = counter + 1;
+        req.counterToken = genSearchToken(counter + 1,tmeCount);
+        req.cntr = counter + 1;
 
-        loggerMS('counter search',user.name,req.session.cntr,'yellow');
+        loggerMS('counter search',user.name,req.cntr,'yellow');
         next();
     })
 }
 
-//Just reset the session token view if token expired
+//Reset the counter token if it expired or init.
 async function verifySearchLite(req,res,next){
-    const token = req.session.counterToken;
+    const token = req.body.counterToken;
 
-    if(token){
-        jwt.verify(token,hashSc,(err,decoded)=>{
-        if(err){
-            const msg = err.message;
-            if(msg === 'jwt expired'){
-                req.session.cntr = 0;
-            };}
-        }) 
-    }
-    next();
-}
-
-async function antiDDoSToken (req,res,next){//Vulnerabillity : previos token erase -> use inside data, how and where init the first???
-    const tokenC = req.session.counterToken;
-    const tokenA = req.session.antiAtkToken;
-
-    //Init user fore logs
+    //Init user for logs
     const userId = req.user;
     const user = await dbFindUser(userId);
 
-    //No Counte token
-    if(!tokenC){
-        return res
-            .status(401)
-            .json({message:'Counter Token is missing!'});
-    };
-    //No Atack token -> init it
-    if(!tokenA){
-        req.session.antiAtkToken = genAntiDDoSToken(true);
-        return next();
-    };
+    if(token){
+        jwt.verify(token,hashSc,(err,decoded)=>{
+            if(err){
+                const msg = err.message;
+                if(msg === 'jwt expired'){
+                    req.cntr = 1;
+                    req.counterToken = initToken(user);
+                };
+            }else{
+                req.cntr = decoded.counter;
+                req.counterToken = token;
+            } 
+        })
+    }else {
+        req.cntr = 1;
+        req.counterToken = initToken(user);
+    }
 
-    jwt.verify(tokenA,hashSc,(err,decoded)=>{
-        //Check and refresh token if expired
-        if(err){
-            const msg = err.message;
-            if(msg === 'jwt expired'){
-                req.session.antiAtkToken = genAntiDDoSToken(true);
-                return next();
-            };
-            return res
-                .status(401)
-                .json({message:'Invalid Anti Atack Token', error: err.message});
-        }
-        loggerMS('counter search',user.name,'MUTLIPLE REQUESTS','red');
-        res
-            .status(429)
-            .json({message:'What are you trying?'});
-    })
-
+    next();
 }
+
+
 
 
 module.exports = {
@@ -194,5 +161,4 @@ module.exports = {
     verifyUser,
     verifySearchToken,
     verifySearchLite,
-    antiDDoSToken
  };

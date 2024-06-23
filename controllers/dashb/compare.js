@@ -7,7 +7,8 @@ const {
 module.exports = async (req,res) =>{
     const userId = req.user;
     const user = await dbFindUser(userId);
-    const product = req.session.search;
+    const product = req.session.search || req.body.product;
+
 
     //Sorts
     const capCmp = await dbSortProdSN(user,'Caprabo',product);
