@@ -22,6 +22,8 @@ app.use(morgan('dev'));
 
 app.use('/api', require('./routes'));
 
+app.get('/health',(req,res)=>res.status(200).json({message:'server on'}));
+
 const server = app.listen(PORT, ()=>{
     console.log(`Server on ${PORT}`);
 })
