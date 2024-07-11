@@ -11,9 +11,9 @@ const {
 } = require('../../config/loggers');
 
 const {fetchCap} = require('../supers/cap');
-// const {fetchCon} = require('../supers/cod');
+// const {fetchCon} = require('../supers/cod'); //Dont work on deploy , refused conection from super?
 const {fetchDia} = require('../supers/dia');
-// const {fetchElc} = require('../supers/elc');
+// const {fetchElc} = require('../supers/elc'); //Dont work on deploy , refused conection from super?
 const {fetchEro} = require('../supers/ero');
 const {fetchLid} = require('../supers/lid');
 const {fetchLsi} = require('../supers/lsi');
@@ -40,19 +40,33 @@ module.exports = async(req,res) => {
 
     // - - - -  Scraps logics - - - - 
 
-    // Cheerio 
-    const cap = await fetchCap(product).then(loggerFD(user.name,'CAP'));
-    // const cod = await fetchCon(product).then(loggerFD(user.name,'COD')); //Deprecrated on deploy?
-    const dia = await fetchDia(product).then(loggerFD(user.name,'DIA'));
-    // const elc = await fetchElc(product).then(loggerFD(user.name,'ELC')); //Deprecrated on deploy?
-    const ero = await fetchEro(product).then(loggerFD(user.name,'ERO'));
-    const lid = await fetchLid(product).then(loggerFD(user.name,'LID'));
-    const lsi = await fetchLsi(product).then(loggerFD(user.name,'LSI'));
-    // //Puppetter
-    const ald = await fetchAld(product).then(loggerFD(user.name,'ALD'));
-    const car = await fetchCar(product).then(loggerFD(user.name,'CAR'));
-    const cod = await fetchCodP(product).then(loggerFD(user.name,'COD')); // Fix probe
-    const elc = await fetchElcP(product).then(loggerFD(user.name,'ELC')); // Fix probe
+    const capP = fetchCap(product);
+    const diaP = fetchDia(product);
+    const eroP = fetchEro(product);
+    const lidP = fetchLid(product);
+    const lsiP = fetchLsi(product);
+    const aldP = fetchAld(product);
+    const carP = fetchCar(product);
+    const codP = fetchCodP(product);
+    const elcP = fetchElcP(product);
+
+    let cap,dia,ero,lid,lsi,ald,car,cod,elc;
+
+    await Promise.all([capP,diaP,eroP,lidP,lsiP,aldP,carP,codP,elcP])
+        .then(result => {
+            loggerFD(user.name,'ALL SUPERS');
+
+            cap = result[0];
+            dia = result[1];
+            ero = result[2];
+            lid = result[3];
+            lsi = result[4];
+            ald = result[5];
+            car = result[6];
+            cod = result[7];
+            elc = result[8];
+
+        }); //Do NOT change the results order.
 
     // - - - -  DB  enters - - - -
     
